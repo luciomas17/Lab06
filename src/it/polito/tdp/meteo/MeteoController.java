@@ -10,6 +10,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 
 public class MeteoController {
+	
+	Model model = new Model();
 
 	@FXML
 	private ResourceBundle resources;
@@ -18,7 +20,7 @@ public class MeteoController {
 	private URL location;
 
 	@FXML
-	private ChoiceBox<?> boxMese;
+	private ChoiceBox<Integer> boxMese;
 
 	@FXML
 	private Button btnCalcola;
@@ -36,7 +38,12 @@ public class MeteoController {
 
 	@FXML
 	void doCalcolaUmidita(ActionEvent event) {
-
+		if(!this.boxMese.getSelectionModel().isEmpty()) {
+			int mese = this.boxMese.getSelectionModel().getSelectedItem();
+			this.txtResult.setText(model.getUmiditaMedia(mese));
+			
+		} else 
+			this.txtResult.setText("Seleziona un mese.");
 	}
 
 	@FXML
@@ -46,5 +53,14 @@ public class MeteoController {
 		assert btnUmidita != null : "fx:id=\"btnUmidita\" was not injected: check your FXML file 'Meteo.fxml'.";
 		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Meteo.fxml'.";
 	}
+
+	public void setModel(Model model) {
+		this.model = model;
+		
+		for(int i=1; i<=12; i++)
+			boxMese.getItems().add(i);
+	}
+	
+	
 
 }

@@ -7,31 +7,18 @@ import java.sql.SQLException;
 
 public class DBConnect {
 
-	static private final String jdbcUrl = "jdbc:mysql://localhost/meteo?user=root&password=root";
-	static private DBConnect instance = null;
+	private static final String jdbcURL = "jdbc:mysql://localhost/meteo?user=root&password=root&serverTimezone=UTC";
 
-	private DBConnect() {
-		instance = this;
-	}
-
-	public static DBConnect getInstance() {
-		if (instance == null)
-			return new DBConnect();
-		else {
-			return instance;
-		}
-	}
-
-	public Connection getConnection() {
+	public static Connection getConnection() {
+		Connection conn;
 		try {
-
-			Connection conn = DriverManager.getConnection(jdbcUrl);
-			return conn;
-
+			conn = DriverManager.getConnection(jdbcURL);
+			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Cannot get connection " + jdbcUrl, e);
+			System.err.println("Errore connessione al DB");
+			throw new RuntimeException(e);
 		}
+		
+		return conn;
 	}
-
 }
